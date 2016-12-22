@@ -17,8 +17,6 @@ template <class EventClass> class JetPlotterOperator : public BaseOperator<Event
 
     std::vector<std::size_t> j_sortInd_;
 
-    TH1D h_nevts {"h_nevts", "number of events", 1, 0., 1.};
-
     TH1D h_jets_pt {"h_jets_pt", "jets pt", 300, 0., 900.};
     TH1D h_jets_eta {"h_jets_eta", "jets eta", 100, -4.0, 4.0};
     TH1D h_jets_csv {"h_jets_csv", "jets csv", 300,  -1., 1.};
@@ -58,8 +56,6 @@ template <class EventClass> class JetPlotterOperator : public BaseOperator<Event
 
     virtual void init(TDirectory * tdir) {
 
-      h_nevts.SetDirectory(tdir);
-
       h_jets_pt.SetDirectory(tdir);
       h_jets_eta.SetDirectory(tdir);
       h_jets_csv.SetDirectory(tdir);
@@ -89,8 +85,6 @@ template <class EventClass> class JetPlotterOperator : public BaseOperator<Event
       h_jet1pt_pt.SetDirectory(tdir);
       h_jet2pt_pt.SetDirectory(tdir);
       h_jet3pt_pt.SetDirectory(tdir);
-
-      h_nevts.Sumw2();
 
       h_jets_pt.Sumw2();
       h_jets_eta.Sumw2();
@@ -128,8 +122,6 @@ template <class EventClass> class JetPlotterOperator : public BaseOperator<Event
       float w = 1.0;
       w*=ev.eventInfo_.eventWeight(weights_);
 
-      h_nevts.Fill(0.5, w);
-
       // get pt sorting
       std::string d_ = "pt";
       get_sortIndex_jets(j_sortInd_, ev.jets_, d_);
@@ -138,7 +130,7 @@ template <class EventClass> class JetPlotterOperator : public BaseOperator<Event
       h_jet2pt_pt.Fill(ev.jets_.at(j_sortInd_[2]).pt(), w);
       h_jet3pt_pt.Fill(ev.jets_.at(j_sortInd_[3]).pt(), w);
 
-      // get index of ordering by discriminator
+      // get index of ordering by discriminator - do not change ev.jets_ sorting.
       get_sortIndex_jets(j_sortInd_, ev.jets_, disc_);
 
       auto ht = get_jets_ht(ev.jets_);
@@ -175,7 +167,6 @@ template <class EventClass> class JetPlotterOperator : public BaseOperator<Event
 
     virtual bool output( TFile * tfile) {
 
-      std::cout<< "nevts " << h_nevts.GetBinContent(1) << "+-" << h_nevts.GetBinError(1) << std::endl; 
       return true;
 
     }

@@ -5,6 +5,7 @@
   <class pattern="ComposableSelector*"/>    
   <class pattern="FolderOperator<*>"/>    
   <class pattern="CounterOperator<*>"/>    
+  <class pattern="JEShifterOperator<*>"/>
   <class pattern="TriggerOperator<*>"/>    
   <class pattern="JetFilterOperator<*>"/>    
   <class pattern="MetFilterOperator<*>"/>    
@@ -17,6 +18,8 @@
   <class pattern="DiJetPlotterOperator<*>"/>    
   <class pattern="EventWriterOperator<*>"/> 
   <class pattern="TreeConverterOperator<*>"/> 
+  <class pattern="MCTruthOperator<*>"/> 
+  <class pattern="DiHiggsFilterOperator<*>"/> 
   <class pattern="ThrustFinderOperator<*>"/> 
   <class pattern="HemisphereProducerOperator<*>"/> 
   <class pattern="HemisphereMixerOperator<*>"/> 
