@@ -6,6 +6,7 @@
 #include "Analysis/alp_analysis/interface/FolderOperator.h"
 #include "Analysis/alp_analysis/interface/CounterOperator.h"
 #include "Analysis/alp_analysis/interface/JEShifterOperator.h"
+#include "Analysis/alp_analysis/interface/JERShifterOperator.h"
 #include "Analysis/alp_analysis/interface/TriggerOperator.h"
 #include "Analysis/alp_analysis/interface/JetFilterOperator.h"
 #include "Analysis/alp_analysis/interface/IsoMuFilterOperator.h"
@@ -15,6 +16,7 @@
 
 #include "Analysis/alp_analysis/interface/MiscellPlotterOperator.h"
 #include "Analysis/alp_analysis/interface/JetPlotterOperator.h"
+#include "Analysis/alp_analysis/interface/GenJetPlotterOperator.h"
 #include "Analysis/alp_analysis/interface/DiJetPlotterOperator.h"
 #include "Analysis/alp_analysis/interface/EventWriterOperator.h"
 #include "Analysis/alp_analysis/interface/TreeConverterOperator.h"
@@ -27,6 +29,8 @@
 #include "Analysis/alp_analysis/interface/HemisphereWriterOperator.h"
 #include "Analysis/alp_analysis/interface/MixedEventWriterOperator.h"
 
+#include "Analysis/alp_analysis/interface/ReWeightingOperator.h"
+#include "Analysis/alp_analysis/interface/WeightSumOperator.h"
 #include "Analysis/alp_analysis/interface/Utils.h"
 
 
@@ -42,6 +46,7 @@ namespace {
     CounterOperator<EventBase> counter_operator; 
     TriggerOperator<EventBase> trigger_operator; 
     JEShifterOperator<EventBase> jes_shifter_operator;
+    JERShifterOperator<EventBase> jer_shifter_operator;
     JetFilterOperator<EventBase> jet_filter_operator; 
     IsoMuFilterOperator<EventBase> isomu_filter_operator; 
     MetFilterOperator<EventBase> met_filter_operator; 
@@ -50,6 +55,7 @@ namespace {
     SetJetPairingOperator<EventBase> set_jet_pairing_operator; 
     MiscellPlotterOperator<EventBase> miscell_plotter_operator; 
     JetPlotterOperator<EventBase> jet_plotter_operator; 
+    GenJetPlotterOperator<EventBase> gen_jet_plotter_operator;
     DiJetPlotterOperator<EventBase> di_jet_plotter_operator; 
     EventWriterOperator<EventBase> event_writer_operator; 
     TreeConverterOperator<EventBase> tree_converter_operator; 
@@ -60,6 +66,8 @@ namespace {
     HemisphereMixerOperator<EventBase> hemisphere_mixer_operator;
     HemisphereWriterOperator<EventBase> hemisphere_writer_operator;
     MixedEventWriterOperator<EventBase> mixed_event_writer_operator;
+    ReWeightingOperator<EventBase> reweighting_operator;
+    WeightSumOperator<EventBase> weightsum_operator;
   };
 
   struct event_formats {

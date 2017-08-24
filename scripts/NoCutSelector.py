@@ -13,7 +13,7 @@ from ROOT import TChain, TH1F, TFile, vector, gROOT
 # custom ROOT classes 
 from ROOT import alp, ComposableSelector, CounterOperator, TriggerOperator, JetFilterOperator, BTagFilterOperator, JetPairingOperator, DiJetPlotterOperator
 from ROOT import BaseOperator, EventWriterOperator, IsoMuFilterOperator, MetFilterOperator, JetPlotterOperator, FolderOperator, MiscellPlotterOperator
-from ROOT import ThrustFinderOperator, HemisphereProducerOperator, HemisphereWriterOperator, JEShifterOperator, JERShifterOperator, WeightSumOperator, GenJetPlotterOperator
+from ROOT import ThrustFinderOperator, HemisphereProducerOperator, HemisphereWriterOperator, JEShifterOperator, JERShifterOperator, WeightSumOperator
 
 # imports from ../python 
 from Analysis.alp_analysis.alpSamples  import samples
@@ -31,7 +31,7 @@ parser.add_argument("-s", "--samList", help="sample list", default="")
 parser.add_argument("-t", "--doTrigger", help="apply trigger filter", action='store_true')
 parser.add_argument("--jetCorr", help="apply [0=jesUp, 1=jesDown, 2=jerUp, 3=jerDown]", type=int, default='-1')
 parser.add_argument("--btag", help="which btag algo", default='cmva')
-parser.add_argument("-i", "--iDir", help="input directory", default="v2_20170222") 
+parser.add_argument("-i", "--iDir", help="input directory", default="v2_20170210") 
 parser.add_argument("-o", "--oDir", help="output directory", default="def_cmva")
 parser.add_argument("-m", "--doMixed", help="to process mixed samples", action='store_true') 
 parser.add_argument("-f", "--no_savePlots", help="to save histos already in output file", action='store_false', dest='savePlots', ) #to get faster execution
@@ -66,8 +66,8 @@ elif args.btag == 'csv':
 weights        = {}
 weights_nobTag = {} 
 if not args.doMixed:
-    weights        = {'PUWeight', 'BTagWeight''PdfWeight'}
-    weights_nobTag = {'PUWeight','PdfWeight'}
+    weights        = {'PUWeight', 'PdfWeight', 'BTagWeight'}
+    weights_nobTag = {'PUWeight', 'PdfWeight'} 
 # ---------------
 
 if not os.path.exists(oDir): os.mkdir(oDir)
@@ -85,15 +85,11 @@ w_nobTag_v = vector("string")()
 for w in weights_nobTag: w_nobTag_v.push_back(w)
 
 # to parse variables to the anlyzer
-if args.doMixed: config = { "jets_branch_name": "Jets",
-                            "fhems_branch_name": "Hems",
-                            "orhems_branch_name": "OrHems",
-                          }
+if args.doMixed: config = { "jets_branch_name": "Jets", }
 else: config = { "eventInfo_branch_name" : "EventInfo",
-              "jets_branch_name": "Jets",
-              "genbfromhs_branch_name" : "GenBFromHs",
-              "genhs_branch_name" : "GenHs",
-              "tl_genbfromhs_branch_name" : "TL_GenBFromHs",
+            #  "jets_branch_name": "Jets",
+             # "genbfromhs_branch_name" : "GenBFromHs",
+            #  "genhs_branch_name" : "GenHs",
               "tl_genhs_branch_name" : "TL_GenHs",
             }
 #"muons_branch_name" : "",
@@ -108,17 +104,11 @@ config.update(
           "isSignal" : False,
           "lumiFb" : intLumi_fb,
           "isMixed" : args.doMixed,
-          "ofile_update" : False,
-#          "evt_weight_name" : "evtWeight",
          } )
 
 snames = []
-print samList
 for s in samList:
-    if not s in samlists: 
-        snames.append(s)
-    else: 
-        snames.extend(samlists[s])
+    snames.extend(samlists[s])
 
 # process samples
 ns = 0
@@ -157,10 +147,9 @@ for sname in snames:
         print  "genevts {}".format(ngenev)
 
     #read weights from alpSamples 
-    if not args.doMixed:
-      config["xsec_br"]  = samples[sname]["xsec_br"]
-      config["matcheff"] = samples[sname]["matcheff"]
-      config["kfactor"]  = samples[sname]["kfactor"]
+    config["xsec_br"]  = samples[sname]["xsec_br"]
+    config["matcheff"] = samples[sname]["matcheff"]
+    config["kfactor"]  = samples[sname]["kfactor"]
 
     json_str = json.dumps(config)
 
@@ -183,59 +172,43 @@ for sname in snames:
         print "- default JEC-JER applied -"
 
 
-    selector.addOperator(FolderOperator(alp.Event)("base"))
-    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], w_nobTag_v))
-    #selector.addOperator(GenJetPlotterOperator(alp.Event)(btagAlgo))
+    #selector.addOperator(FolderOperator(alp.Event)("base"))
+  #  selector.addOperator(WeightSumOperator(alp.Event)(w_nobTag_v))
+    #selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], w_nobTag_v))
 
-    #trigger
-    if args.doTrigger:
-        if not args.doMixed:
-	        selector.addOperator(FolderOperator(alp.Event)("trigger"))
-        	selector.addOperator(TriggerOperator(alp.Event)(trg_names_v))
-        	selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], w_nobTag_v))
-        else: 
-		    print "WARNING: is Mixed sample - trigger filter applied already"
+   #selector.addOperator(FolderOperator(alp.Event)("acc"))
+ #   selector.addOperator(JetFilterOperator(alp.Event)(2.4, 30., 4))
+   #selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], w_nobTag_v))
+    # selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, weights_v)) #with bTag since jets are sorted
 
-    selector.addOperator(FolderOperator(alp.Event)("acc"))
-    selector.addOperator(JetFilterOperator(alp.Event)(2.4, 30., 4))
-    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], w_nobTag_v))
-    #selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, w_nobTag_v)) #with bTag since jets are sorted
-    #selector.addOperator(GenJetPlotterOperator(alp.Event)(btagAlgo))
+   #selector.addOperator(FolderOperator(alp.Event)("btag"))
+#    selector.addOperator(BTagFilterOperator(alp.Event)(btagAlgo, btag_wp[1], 4, 3, config["isData"], data_path)) #99  3
+   #selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], weights_v))
+    # selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, weights_v))        
 
-    selector.addOperator(FolderOperator(alp.Event)("btag"))
-    selector.addOperator(BTagFilterOperator(alp.Event)(btagAlgo, btag_wp[1], 4, 99, config["isData"], data_path)) #99=noAntitag  3 99
-    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], weights_v))
-    #selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, weights_v))        
-    #selector.addOperator(GenJetPlotterOperator(alp.Event)(btagAlgo))
- 
     #trigger
     #if args.doTrigger:
-    #    if not args.doMixed:
-    #            selector.addOperator(FolderOperator(alp.Event)("trigger"))
-    #            selector.addOperator(TriggerOperator(alp.Event)(trg_names_v))
-    #            selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], weights_v))
-    #    else:
-    #            print "WARNING: is Mixed sample - trigger filter applied already"
+     #   if not args.doMixed:
+      #          selector.addOperator(FolderOperator(alp.Event)("trigger"))
+       #         selector.addOperator(TriggerOperator(alp.Event)(trg_names_v))
+        #        selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], weights_v))
+        #else:
+         #       print "WARNING: is Mixed sample - trigger filter applied already"
 
-    selector.addOperator(FolderOperator(alp.Event)("pair"))
-    selector.addOperator(JetPairingOperator(alp.Event)(4))
-    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], weights_v))
-    if args.savePlots: selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, weights_v))        
-    if args.savePlots: selector.addOperator(DiJetPlotterOperator(alp.Event)(weights_v))
+  #  selector.addOperator(FolderOperator(alp.Event)("pair"))
+  #  selector.addOperator(JetPairingOperator(alp.Event)(4))
+ #   selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"], weights_v))
+ #   if args.savePlots: selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, weights_v))        
+ #   if args.savePlots: selector.addOperator(DiJetPlotterOperator(alp.Event)(weights_v))
     selector.addOperator(EventWriterOperator(alp.Event)(json_str, weights_v))
-    if not args.doMixed:
-        selector.addOperator(ThrustFinderOperator(alp.Event)())
-        selector.addOperator(HemisphereProducerOperator(alp.Event)())
-        selector.addOperator(HemisphereWriterOperator(alp.Event)())
-
+ 
     #create tChain and process each files
     if args.doMixed: treename = "mix_tree"
     else: treename = "ntuple/tree"
     tchain = TChain(treename)    
     for File in files:                     
         tchain.Add(File)
-    totentries = tchain.GetEntries()
-    nev = numEvents if (numEvents > 0 and numEvents < totentries) else totentries
+    nev = numEvents if (numEvents > 0 and numEvents < tchain.GetEntries()) else tchain.GetEntries()
     procOpt = "ofile=./"+sname+".root" if not oDir else "ofile="+oDir+"/"+sname+".root"
     print "maxevts {}".format(nev)
     tchain.Process(selector, procOpt, nev)

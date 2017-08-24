@@ -8,11 +8,12 @@ from glob import glob
 from ROOT import TChain, TH1F, TFile, vector
 # custom ROOT classes 
 from ROOT import alp, ComposableSelector, CounterOperator, TriggerOperator, JetFilterOperator, BTagFilterOperator, JetPairingOperator, DiJetPlotterOperator
-from ROOT import BaseOperator, EventWriterOperator, IsoMuFilterOperator, MetFilterOperator, JetPlotterOperator, FolderOperator, MiscellPlotterOperator
+from ROOT import BaseOperator, EventWriterOperator, IsoMuFilterOperator, MetFilterOperator, JetPlotterOperator, FolderOperator, MiscellPlotterOperator, WeightSumOperator
 
 from Analysis.alp_analysis.alpSamples  import samples
 from Analysis.alp_analysis.samplelists import samlists
 from Analysis.alp_analysis.triggerlists import triggerlists
+from Analysis.alp_analysis.workingpoints import wps
 
 TH1F.AddDirectory(0)
 
@@ -21,7 +22,12 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-e", "--numEvts", help="number of events", type=int, default='-1')
 parser.add_argument("-s", "--samList", help="sample list", default="")
-parser.add_argument("-o", "--oDir", help="output directory", default="/lustre/cmswork/hh/alp_baseSelector/trg_mc_def")
+parser.add_argument("--nbtag", help="min btag jets", type=int, default='4',  )
+parser.add_argument("--btag", help="which btag algo", default='cmva')
+parser.add_argument("-i", "--iDir", help="input directory", default="v2_20170222-trg") 
+parser.add_argument("-o", "--oDir", help="output directory", default="trgEff_draft")
+parser.add_argument("-f", "--no_savePlots", help="to save histos already in output file", action='store_false', dest='savePlots', )
+parser.set_defaults(savePlots=True)
 args = parser.parse_args()
 
 # exe parameters
@@ -30,19 +36,28 @@ if not args.samList: samList = ['st','tt']  # list of samples to be processed - 
 else: samList = [args.samList]
 trgListD   = 'singleMu_2016'
 trgListN   = 'def_2016'
-intLumi_fb = 36.26
+intLumi_fb = 35.9
 
 
-iDir       = "/lustre/cmswork/hh/alpha_ntuples/"
-ntuplesVer = "v1_20161212"    # -- 20161028  20161212
-oDir = args.oDir
+iDir = "/lustre/cmswork/hh/alpha_ntuples/" + args.iDir
+oDir = '/lustre/cmswork/hh/alp_moriond_base/' + args.oDir
 data_path = "{}/src/Analysis/alp_analysis/data/".format(os.environ["CMSSW_BASE"])
-btagAlgo  = "pfCombinedInclusiveSecondaryVertexV2BJetTags"
-#btagAlgo  = "pfCombinedMVAV2BJetTags"
-weights   = {'PUWeight', 'GenWeight', 'BTagWeight'}  #weights to be applied 
+
+if args.btag == 'cmva':  
+    btagAlgo = "pfCombinedMVAV2BJetTags"
+    btag_wp = wps['CMVAv2_moriond']
+elif args.btag == 'csv': 
+    btagAlgo  = "pfCombinedInclusiveSecondaryVertexV2BJetTags"
+    btag_wp = wps['CSVv2_moriond']
+
+
+#weights to be applied 
+weights        = {'PUWeight', 'LeptonWeight', 'BTagWeight'} #'lhe_weight_10',
+weights_nobTag = {'PUWeight', 'LeptonWeight'} #'lhe_weight_10'
 # ---------------
 
 if not os.path.exists(oDir): os.mkdir(oDir)
+print oDir
 
 trg_namesD = triggerlists[trgListD]
 trg_namesN = triggerlists[trgListN]
@@ -58,6 +73,8 @@ for t in trg_namesN: trg_namesN_v.push_back(t)
 # to convert weights 
 weights_v = vector("string")()
 for w in weights: weights_v.push_back(w)
+w_nobTag_v = vector("string")()
+for w in weights_nobTag: w_nobTag_v.push_back(w)
 
 # to parse variables to the anlyzer
 config = {"eventInfo_branch_name" : "EventInfo",
@@ -65,17 +82,20 @@ config = {"eventInfo_branch_name" : "EventInfo",
           "muons_branch_name" : "Muons",
           "electrons_branch_name" : "Electrons",
           "met_branch_name" : "MET",
-          "genbfromhs_branch_name" : "GenBFromHs",
+          #"genbfromhs_branch_name" : "GenBFromHs",
           "genhs_branch_name" : "GenHs",
-          #"tl_genhs_branch_name" : "TL_GenHs",
-          "n_gen_events":0,
+         }
+config.update(        
+        { "n_gen_events":0,
           "xsec_br" : 0,
           "matcheff": 0,
           "kfactor" : 0,
-          "isData" : False,
+          "isData"  : False,
+          "isSignal" : False,
           "lumiFb" : intLumi_fb,
           "isMixed" : False,
-         }
+          "ofile_update" : False,
+         } )        
 
 snames = []
 for s in samList:
@@ -84,26 +104,22 @@ for s in samList:
 # process samples
 ns = 0
 for sname in snames:
-    isHLT = False
-
+    
     #get file names in all sub-folders:
-    reg_exp = iDir+ntuplesVer+"/"+samples[sname]["sam_name"]+"/*/output.root"
-    print "reg_exp: {}".format(reg_exp) 
+    reg_exp = iDir+"/"+samples[sname]["sam_name"]+"/*/output.root"
     files = glob(reg_exp)
     print "\n ### processing {}".format(sname)        
- 
+    print "reg_exp: {}".format(reg_exp)
+
     #preliminary checks
     if not files: 
         print "WARNING: files do not exist"
         continue
     else:
-        if "Run" in files[0]: config["isData"] = True 
-        elif "_withHLT" in files[0]: isHLT = True
-        elif "_reHLT" in files[0]: isHLT = True
-        else:
-            print "WARNING: no HLT, skip samples"
-            continue
-
+        if "Run" in files[0]: 
+            config["isData"] = True
+        if "GluGluToHH" in files[0] or "HHTo4B" in files[0]: config["isSignal"] = True
+   
     #read counters to get generated events
     ngenev = 0
     nerr = 0
@@ -117,8 +133,8 @@ for sname in snames:
         tf.Close()
     ngenev = hcount.GetBinContent(1)
     config["n_gen_events"]=ngenev
-    print  "gen numEv {}".format(ngenev)
     print  "empty files {}".format(nerr)
+    print  "genevts {}".format(ngenev)
 
     #read weights from alpSamples 
     config["xsec_br"]  = samples[sname]["xsec_br"]
@@ -126,47 +142,47 @@ for sname in snames:
     config["kfactor"]  = samples[sname]["kfactor"]
 
     json_str = json.dumps(config)
-
-    w2 = {'PUWeight', 'GenWeight'} 
-    w2_v = vector("string")()
-    for w in w2: w2_v.push_back(w)
-
+    
     #define selectors list
     selector = ComposableSelector(alp.Event)(0, json_str)
     selector.addOperator(BaseOperator(alp.Event)())
     selector.addOperator(FolderOperator(alp.Event)("base"))
-    selector.addOperator(CounterOperator(alp.Event)(w2_v))
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],w_nobTag_v))
 
     selector.addOperator(FolderOperator(alp.Event)("trigger"))
     selector.addOperator(TriggerOperator(alp.Event)(trg_namesD_v))
-    selector.addOperator(CounterOperator(alp.Event)(w2_v))
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],w_nobTag_v))
 
     selector.addOperator(FolderOperator(alp.Event)("acc"))
-    selector.addOperator(JetFilterOperator(alp.Event)(2.5, 30., 4))
-    selector.addOperator(CounterOperator(alp.Event)(w2_v)) #debug - no bTagWeight?
-    selector.addOperator(JetPlotterOperator(alp.Event)("pt",w2_v))
-    selector.addOperator(MiscellPlotterOperator(alp.Event)(w2_v))
+    selector.addOperator(JetFilterOperator(alp.Event)(2.4, 30., 4)) 
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],w_nobTag_v))
+#    selector.addOperator(JetPlotterOperator(alp.Event)("pt",w_nobTag_v))
+#    selector.addOperator(MiscellPlotterOperator(alp.Event)(w_nobTag_v))
 
     selector.addOperator(FolderOperator(alp.Event)("btag"))
-    selector.addOperator(BTagFilterOperator(alp.Event)(btagAlgo, 0.800, 4, config["isData"], data_path))
-    selector.addOperator(CounterOperator(alp.Event)(weights_v))
+    selector.addOperator(BTagFilterOperator(alp.Event)(btagAlgo, btag_wp[1], args.nbtag, 99, config["isData"], data_path))
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
 
-    selector.addOperator(IsoMuFilterOperator(alp.Event)(0.05, 30., 1))
-    selector.addOperator(CounterOperator(alp.Event)(weights_v))
+    selector.addOperator(FolderOperator(alp.Event)("isomu"))
+    selector.addOperator(IsoMuFilterOperator(alp.Event)(0.15, 30., 1))  #debug 0.05
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
 
+    selector.addOperator(FolderOperator(alp.Event)("met"))
     selector.addOperator(MetFilterOperator(alp.Event)(40.))
-    selector.addOperator(CounterOperator(alp.Event)(weights_v))
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
 
     selector.addOperator(FolderOperator(alp.Event)("trg_Iso"))
-    selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo,weights_v)) 
-    selector.addOperator(MiscellPlotterOperator(alp.Event)(weights_v))
-    selector.addOperator(CounterOperator(alp.Event)(weights_v))
+    if args.savePlots: selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo,weights_v)) 
+    if args.savePlots: selector.addOperator(MiscellPlotterOperator(alp.Event)(weights_v))
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
+    selector.addOperator(EventWriterOperator(alp.Event)(json_str, weights_v))
 
     selector.addOperator(FolderOperator(alp.Event)("trg_IsoAndJet"))
     selector.addOperator(TriggerOperator(alp.Event)(trg_namesN_v))
-    selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo,weights_v))
-    selector.addOperator(MiscellPlotterOperator(alp.Event)(weights_v))
-    selector.addOperator(CounterOperator(alp.Event)(weights_v))
+    if args.savePlots: selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo,weights_v))
+    if args.savePlots: selector.addOperator(MiscellPlotterOperator(alp.Event)(weights_v))
+    selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
+    selector.addOperator(EventWriterOperator(alp.Event)(json_str, weights_v))
 
     #create tChain and process each files
     tchain = TChain("ntuple/tree")    
@@ -174,11 +190,12 @@ for sname in snames:
         tchain.Add(File)       
     nev = numEvents if (numEvents > 0 and numEvents < tchain.GetEntries()) else tchain.GetEntries()
     procOpt = "ofile=./"+sname+".root" if not oDir else "ofile="+oDir+"/"+sname+".root"
-    print "max numEv {}".format(nev)
+    print "maxevts {}".format(nev)
     tchain.Process(selector, procOpt, nev)
     ns+=1
    
     #some cleaning
     hcount.Reset()
+    print "{}".format(procOpt)
 
 print "### processed {} samples ###".format(ns) 

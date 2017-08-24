@@ -1,0 +1,174 @@
+#!/usr/bin/env python 
+# python ReWeighting.py -s signals -o def_cmva/
+
+# good old python modules
+import json
+import os
+import importlib
+from glob import glob
+
+# ROOT imports
+import ROOT
+from ROOT import TChain, TH1F, TFile, vector, gROOT
+# custom ROOT classes 
+from ROOT import alp, ComposableSelector, CounterOperator, DiJetPlotterOperator
+from ROOT import BaseOperator, EventWriterOperator, JetPlotterOperator, FolderOperator, MiscellPlotterOperator
+from ROOT import JEShifterOperator, JERShifterOperator, ReWeightingOperator
+
+# imports from ../python 
+from Analysis.alp_analysis.alpSamples  import samples
+from Analysis.alp_analysis.samplelists import samlists
+from Analysis.alp_analysis.triggerlists import triggerlists
+from Analysis.alp_analysis.workingpoints import wps
+
+TH1F.AddDirectory(0)
+
+# parsing parameters
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("-e", "--numEvts", help="number of events", type=int, default='-1')
+parser.add_argument("-s", "--samList", help="sample list", default="signals")
+parser.add_argument("-i", "--iDir", help="input directory", default="def_cmva")
+parser.add_argument("-o", "--oDir", help="output directory", default="def_cmva_rew")
+parser.add_argument("--jetCorr", help="apply [0=jesUp, 1=jesDown, 2=jerUp, 3=jerDown]", type=int, default='-1')
+parser.add_argument("-f", "--no_savePlots", help="to save histos already in output file", action='store_false', dest='savePlots', ) #to get faster execution
+# NOTICE: do not use trigger, jesUp, jesDown with '-m'
+parser.set_defaults(doTrigger=False, doMixed=False, savePlots=True)
+args = parser.parse_args()
+
+# exe parameters
+numEvents  =  args.numEvts
+if not args.samList: samList = ['signals']  # list of samples to be processed - append multiple lists
+else: samList = [args.samList]
+trgList   = 'def_2016'
+intLumi_fb = 35.9
+
+rw_fname_SM = "../Support/NonResonant/Distros_5p_SM3M_sumBenchJHEP_13TeV.root"
+rw_fname_BM = "../Support/NonResonant/Distros_5p_500000ev_12sam_13TeV_JHEP_500K.root"
+rw_fname_HH = "../Support/NonResonant/Hist2DSum_V0_SM_box.root"
+
+iDir = "/lustre/cmswork/hh/alp_moriond_base/" + args.iDir
+oDir = '/lustre/cmswork/hh/alp_moriond_base/' + args.oDir
+if args.jetCorr   == 0: 
+    iDir += "_JESup"
+    oDir += "_JESup"
+elif args.jetCorr == 1: 
+    iDir += "_JESdown"
+    oDir += "_JESdown"
+elif args.jetCorr == 2:
+    iDir += "_JERup"
+    oDir += "_JERup"
+elif args.jetCorr == 3:
+    iDir += "_JERdown"
+    oDir += "_JERdown"
+iDir += "/"
+oDir += "/"
+
+data_path = "{}/src/Analysis/alp_analysis/data/".format(os.environ["CMSSW_BASE"])
+
+if not os.path.exists(oDir): os.mkdir(oDir)
+print oDir
+
+btagAlgo = "pfCombinedMVAV2BJetTags"
+btag_wp = wps['CMVAv2_moriond']
+
+# to convert weights 
+weights_v = vector("string")()
+
+# to parse variables to the anlyzer
+config = { "eventInfo_branch_name" : "EventInfo",
+             #"jets_branch_name": "Jets",
+          #    "dijets_branch_name": "DiJets",
+          #    "dihiggs_branch_name": "DiHiggs",
+          #    "genbfromhs_branch_name" : "GenBFromHs",
+          #    "genhs_branch_name" : "GenHs",
+              "tl_genhs_branch_name" : "TL_GenHs",
+              "tl_genhh_branch_name" : "TL_GenHH",
+            }
+#"muons_branch_name" : "",
+#"electrons_branch_name" : "",
+#"met_branch_name" : "",
+config.update(        
+        { "n_gen_events":0,
+          "xsec_br" : 0,
+          "matcheff": 0,
+          "kfactor" : 0,
+          "isData" : False,
+          "isSignal" : False,
+          "lumiFb" : intLumi_fb,
+          "isMixed" : False,
+          "ofile_update" : False,
+          "evt_weight_name" : "evtWeight",
+         } )
+
+snames = []
+for s in samList:
+    snames.extend(samlists[s])
+
+ns = 0
+print args.samList
+#create tChain with all files in list
+treename = "tree"
+tchain = TChain(treename)    
+
+ngenev = 0
+nerr = 0
+for sname in snames:
+    #get file names in all sub-folders:
+    reg_exp = iDir+sname+".root"
+    print "\n reg_exp: {}".format(reg_exp) 
+    files = glob(reg_exp)
+    print " ### adding {}".format(sname)        
+ 
+    #preliminary checks
+    if not files: 
+        print "WARNING: files do not exist"
+        continue
+    else:
+        if "Run" in files[0]: config["isData"] = True
+        if "GluGluToHH" in files[0] or "HHTo4B" in files[0]: config["isSignal"] = True
+
+    hcount = TH1F('hcount', 'num of genrated events',1,0,1)
+    for f in files:
+        tf = TFile(f)
+        if tf.Get('h_genEvts'):
+            hcount.Add(tf.Get('h_genEvts'))
+        else:
+            nerr+=1        
+        tf.Close()
+	ngenev += hcount.GetBinContent(1)
+        tchain.Add(f)
+
+#read weights from alpSamples -- DEBUG - unused
+config["xsec_br"]  = -1.
+config["matcheff"] = -1.
+config["kfactor"]  = -1.
+
+config["n_gen_events"] = ngenev
+print  "gen numEv {}".format(ngenev)
+print  "empty files {}".format(nerr)
+
+json_str = json.dumps(config)
+
+#define selectors list
+selector = ComposableSelector(alp.Event)(0, json_str)
+selector.addOperator(BaseOperator(alp.Event)())
+
+#selector.addOperator(FolderOperator(alp.Event)("base"))
+#selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
+
+selector.addOperator(ReWeightingOperator(alp.Event)(rw_fname_SM, rw_fname_BM, rw_fname_HH))
+
+#selector.addOperator(FolderOperator(alp.Event)("pair"))
+#selector.addOperator(CounterOperator(alp.Event)(config["n_gen_events"],weights_v))
+if args.savePlots: selector.addOperator(JetPlotterOperator(alp.Event)(btagAlgo, weights_v))        
+if args.savePlots: selector.addOperator(DiJetPlotterOperator(alp.Event)(weights_v))
+selector.addOperator(EventWriterOperator(alp.Event)(json_str, weights_v))
+
+nev = numEvents if (numEvents > 0 and numEvents < tchain.GetEntries()) else tchain.GetEntries()
+procOpt = "ofile=./"+"HHTo4B_pangea.root" if not oDir else "ofile="+oDir+"HHTo4B_pangea.root"
+print "max numEv {}".format(nev)
+tchain.Process(selector, procOpt, nev)
+ns+=1
+
+print "### processed {} samples ###".format(ns)

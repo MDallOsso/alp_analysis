@@ -44,6 +44,16 @@ sam_opt = {
         'linestyle' : 1,
         'label'     : 'Data',
     },
+   'SingleMuonRun2016H-PromptReco-v1' : {
+        'sam_name': 'SingleMuonRun2016H-PromptReco-v1',
+        'order'     : 0,
+        'fillcolor' : 1,
+        'fillstyle' : 1,
+        'linecolor' : 1,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'Data',
+    },
    'SingleMuonRun2016H-PromptReco-v2' : {
         'sam_name': 'SingleMuonRun2016H-PromptReco-v2',
         'order'     : 0,
@@ -136,6 +146,16 @@ sam_opt = {
         'label'     : 'Data',
     },
 
+   'BTagCSVRun2016' : {
+        'sam_name'  : 'BTagCSVRun2016',
+        'order'     : 0,
+        'fillcolor' : 430,
+        'fillstyle' : 1,
+        'linecolor' : 430,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'Data',
+    },
    'BTagCSVRun2016B-v1' : {
         'sam_name'  : 'BTagCSVRun2016B-PromptReco-v1',
         'order'     : 0,
@@ -271,7 +291,7 @@ sam_opt = {
     ########## MC ##########
     ### Signals
     'HHTo4B_SM' :{
-        'sam_name': 'GluGluToHHTo4B_node_SM_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_SM_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 632-4, 
         'fillstyle' : 1,
@@ -281,7 +301,7 @@ sam_opt = {
         'label'     : 'SM HH',
     },
     'HHTo4B_BM2' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM2_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM2_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 616-4, 
         'fillstyle' : 1,
@@ -291,7 +311,7 @@ sam_opt = {
         'label'     : 'BM2 HH',
     },
     'HHTo4B_BM3' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM3_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM3_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 432-4, 
         'fillstyle' : 1,
@@ -301,7 +321,7 @@ sam_opt = {
         'label'     : 'BM3 HH',
     },
     'HHTo4B_BM4' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM4_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM4_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 600-4, 
         'fillstyle' : 1,
@@ -311,7 +331,7 @@ sam_opt = {
         'label'     : 'BM4 HH',
     },
     'HHTo4B_BM5' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM5_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM5_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 416+4, 
         'fillstyle' : 1,
@@ -321,7 +341,7 @@ sam_opt = {
         'label'     : 'BM5 HH',
     },
     'HHTo4B_BM6' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM6_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM6_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 400+2, 
         'fillstyle' : 1,
@@ -331,7 +351,7 @@ sam_opt = {
         'label'     : 'BM6 HH',
     },
     'HHTo4B_BM7' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM7_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM7_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 800-3, 
         'fillstyle' : 1,
@@ -341,7 +361,7 @@ sam_opt = {
         'label'     : 'BM7 HH',
     },
     'HHTo4B_BM8' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM8_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM8_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 920+1, 
         'fillstyle' : 1,
@@ -351,7 +371,7 @@ sam_opt = {
         'label'     : 'BM8 HH',
     },
     'HHTo4B_BM9' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM9_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM9_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 860-7, 
         'fillstyle' : 1,
@@ -361,7 +381,7 @@ sam_opt = {
         'label'     : 'BM9 HH',
     },
     'HHTo4B_BM10' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM10_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM10_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 800+3, 
         'fillstyle' : 1,
@@ -371,7 +391,7 @@ sam_opt = {
         'label'     : 'BM10 HH',
     },
     'HHTo4B_BM11' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM11_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM11_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 840+9, 
         'fillstyle' : 1,
@@ -381,7 +401,7 @@ sam_opt = {
         'label'     : 'BM11 HH',
     },
     'HHTo4B_BM12' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM12_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM12_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 880+2, 
         'fillstyle' : 1,
@@ -391,7 +411,7 @@ sam_opt = {
         'label'     : 'BM12 HH',
     },
     'HHTo4B_BM13' :{
-        'sam_name': 'GluGluToHHTo4B_node_BM13_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BM13_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 900-8,
         'fillstyle' : 1,
@@ -401,7 +421,7 @@ sam_opt = {
         'label'     : 'BM13 HH',
     },
     'HHTo4B_BMbox' :{
-        'sam_name': 'GluGluToHHTo4B_node_BMbox_13TeV-madgraph_reHLT-v1',
+        'sam_name': 'GluGluToHHTo4B_node_BMbox_13TeV-madgraph-v1',
         'order'     : 2001,
         'fillcolor' : 1, 
         'fillstyle' : 1,
@@ -410,10 +430,20 @@ sam_opt = {
         'linestyle' : 1,
         'label'     : 'BMbox HH',
     },
+    'VBF_HHTo4B_SM' :{
+        'sam_name': 'BFHHTo4B_CV_1_C2V_1_C3_1_13TeV-madgraph-v1',
+        'order'     : 2002,
+        'fillcolor' : 1, 
+        'fillstyle' : 1,
+        'linecolor' : 1,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'VBF SM HH',
+    },
 
     ### Backgrounds
     'TT' :{
-        'sam_name': 'TT_TuneCUETP8M1_13TeV-powheg-pythia8_reHLT_ext3-v1',
+        'sam_name': 'TT_TuneCUETP8M2T4_13TeV-powheg-pythia8-v1',
         'order'     : 4,
         'fillcolor' : 4, #kBlue-2
         'fillstyle' : 1,
@@ -427,7 +457,7 @@ sam_opt = {
     'QCD_HT300toInf' : { #merged samples
         'sam_name': 'QCD_HT300toInf',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -436,9 +466,9 @@ sam_opt = {
     },
 
     'QCD_HT1000to1500' : {
-        'sam_name': 'QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v2',
+        'sam_name': 'QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -448,7 +478,7 @@ sam_opt = {
     'QCD_HT1000to1500_ext' : {
         'sam_name': 'QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -458,7 +488,7 @@ sam_opt = {
     'QCD_HT1000to1500_m' : {
         'sam_name': 'QCD_HT1000to1500_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -467,9 +497,9 @@ sam_opt = {
     },
 
     'QCD_HT1500to2000' : {
-        'sam_name': 'QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v3',
+        'sam_name': 'QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -479,7 +509,7 @@ sam_opt = {
     'QCD_HT1500to2000_ext' : {
         'sam_name': 'QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -489,7 +519,7 @@ sam_opt = {
     'QCD_HT1500to2000_m' : {
         'sam_name': 'QCD_HT1500to2000_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -499,7 +529,7 @@ sam_opt = {
     'QCD_HT2000toInf' : {
         'sam_name': 'QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -509,7 +539,7 @@ sam_opt = {
     'QCD_HT2000toInf_ext' : {
         'sam_name': 'QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -519,7 +549,17 @@ sam_opt = {
     'QCD_HT2000toInf_m' : {
         'sam_name': 'QCD_HT2000toInf_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
+        'fillstyle' : 1,
+        'linecolor' : 418,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'QCD',
+    },
+    'QCD_HT100to200' : {
+        'sam_name': 'QCD_HT100to200_BGenFilter_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-v1',
+        'order'     : 5,
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -529,7 +569,7 @@ sam_opt = {
     'QCD_HT200to300' : {
         'sam_name': 'QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -539,7 +579,7 @@ sam_opt = {
     'QCD_HT200to300_ext' : {
         'sam_name': 'QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -549,7 +589,7 @@ sam_opt = {
     'QCD_HT200to300_m' : {
         'sam_name': 'QCD_HT200to300_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -559,7 +599,7 @@ sam_opt = {
     'QCD_HT300to500' : {
         'sam_name': 'QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -567,9 +607,9 @@ sam_opt = {
         'label'     : 'QCD',
     },
     'QCD_HT300to500_ext' : {
-        'sam_name': 'QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
+        'sam_name': 'QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v2',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -579,7 +619,7 @@ sam_opt = {
     'QCD_HT300to500_m' : {
         'sam_name': 'QCD_HT300to500_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -589,7 +629,7 @@ sam_opt = {
     'QCD_HT500to700' : {
         'sam_name': 'QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -599,7 +639,7 @@ sam_opt = {
     'QCD_HT500to700_ext' : {
         'sam_name': 'QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -609,7 +649,7 @@ sam_opt = {
     'QCD_HT500to700_m' : {
         'sam_name': 'QCD_HT500to700_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402,
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -619,7 +659,7 @@ sam_opt = {
     'QCD_HT700to1000' : {
         'sam_name': 'QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
         'linecolor' : 418,
         'linewidth' : 2,
@@ -629,7 +669,7 @@ sam_opt = {
     'QCD_HT700to1000_ext' : {
         'sam_name': 'QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
        'linecolor' : 418,
         'linewidth' : 2,
@@ -639,7 +679,7 @@ sam_opt = {
     'QCD_HT700to1000_m' : {
         'sam_name': 'QCD_HT700to1000_merged',
         'order'     : 5,
-        'fillcolor' : 415, #kGreen-2
+        'fillcolor' : 402, 
         'fillstyle' : 1,
        'linecolor' : 418,
         'linewidth' : 2,
@@ -825,7 +865,7 @@ sam_opt = {
 
     ## for trigger studies
     'ST_s-channel_4f_lept' :{
-        'sam_name'  : 'ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1_v0-v1',
+        'sam_name'  : '',
         'order'     : 1001,
         'fillcolor' : 616-4,
         'fillstyle' : 1,
@@ -845,8 +885,39 @@ sam_opt = {
         'label'     : 'ST t-channel',
     },
   
-    'WJetsToLNu_HT-100To200_ext' :{    
-        'sam_name': 'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
+    'ST_t-channel_top_4f_incl' :{
+        'sam_name'  : '',
+         'order'    : 1002,
+        'fillcolor' : 616-2, #kMagenta
+        'fillstyle' : 1,
+        'linecolor' : 616, #kMagenta
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'ST t-channel top incl',
+    },  
+    'ST_t-channel_antitop_4f_incl' :{
+        'sam_name'  : '',
+         'order'    : 1002,
+        'fillcolor' : 616-2, #kMagenta
+        'fillstyle' : 1,
+        'linecolor' : 616, #kMagenta
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'ST t-channel antitop incl',
+    },  
+
+    'WJetsToLNu_HT-100To200_ext2' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-100To200_ext1' :{    
+        'sam_name': '',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -856,7 +927,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-100To200' :{    
-        'sam_name': 'WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
+        'sam_name': '',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -866,7 +937,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-200To400' :{    
-        'sam_name':'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -875,8 +946,18 @@ sam_opt = {
         'linestyle' : 1,
         'label'     : 'WJetsToLNu',
     },
-    'WJetsToLNu_HT-200To400_ext' :{    
-        'sam_name':'WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
+    'WJetsToLNu_HT-200To400_ext1' :{    
+        'sam_name':'',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-200To400_ext2' :{    
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -886,7 +967,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-400To600' :{    
-        'sam_name':'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
+        'sam_name':'',
           'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -896,7 +977,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-400To600_ext' :{    
-        'sam_name':'WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -906,7 +987,17 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-600To800' :{    
-        'sam_name':'WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
+        'sam_name':'',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-600To800_ext' :{    
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -916,7 +1007,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-800To1200' :{    
-        'sam_name':'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v2',
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -926,7 +1017,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-800To1200_ext' :{    
-        'sam_name':'WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
+        'sam_name':'',
          'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -936,7 +1027,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
    },
     'WJetsToLNu_HT-1200To2500' :{    
-        'sam_name':'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -946,7 +1037,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-1200To2500_ext' :{    
-        'sam_name':'WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0_ext1-v1',
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -956,7 +1047,7 @@ sam_opt = {
         'label'     : 'WJetsToLNu',
     },
     'WJetsToLNu_HT-2500ToInf' :{    
-        'sam_name':'WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_v0-v1',
+        'sam_name':'',
         'order'    : 1003,
         'fillcolor' : 430, #kCyan-2
         'fillstyle' : 1,
@@ -965,6 +1056,86 @@ sam_opt = {
         'linestyle' : 1,
         'label'     : 'WJetsToLNu',
     },   
+    'WJetsToLNu_HT-2500ToInf_ext' :{    
+        'sam_name':'',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },   
+    'WJetsToLNu_HT-100To200_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-200To400_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-400To600_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-600To800_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-800To1200_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-1200To2500_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
+    'WJetsToLNu_HT-2500ToInf_m' :{    
+        'sam_name': '',
+        'order'    : 1003,
+        'fillcolor' : 430, #kCyan-2
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'WJetsToLNu',
+    },
 
     #additional samples (for second level filters)
     'QCD_HT200toInf' :{
@@ -1037,5 +1208,44 @@ sam_opt = {
         'linestyle' : 1,
         'label'     : '',
     },  
-
+    'bkg' :{  #debug
+        'sam_name' :'bkg',
+        'order'    : 0,
+        'fillcolor' : 430,
+        'fillstyle' : 1,
+        'linecolor' : 430, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'bkg',
+    },  
+    'sig' :{  #debug
+        'sam_name' :'sig',
+        'order'    : 0,
+        'fillcolor' : 630,
+        'fillstyle' : 1,
+        'linecolor' : 630, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'sig',
+    },  
+    'data' :{  #debug
+        'sam_name' :'data',
+        'order'    : 0,
+        'fillcolor' : 1,
+        'fillstyle' : 1,
+        'linecolor' : 1, 
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'data',
+    },  
+    'additional' :{  #debug
+        'sam_name' :'additional',
+        'order'    : 0,
+        'fillcolor' : 430,
+        'fillstyle' : 1,
+        'linecolor' : 430,
+        'linewidth' : 2,
+        'linestyle' : 1,
+        'label'     : 'additional',
+    }
 }

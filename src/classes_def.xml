@@ -6,6 +6,7 @@
   <class pattern="FolderOperator<*>"/>    
   <class pattern="CounterOperator<*>"/>    
   <class pattern="JEShifterOperator<*>"/>
+  <class pattern="JERShifterOperator<*>"/>
   <class pattern="TriggerOperator<*>"/>    
   <class pattern="JetFilterOperator<*>"/>    
   <class pattern="MetFilterOperator<*>"/>    
@@ -15,6 +16,7 @@
   <class pattern="SetJetPairingOperator<*>"/>   
   <class pattern="MiscellPlotterOperator<*>"/>     
   <class pattern="JetPlotterOperator<*>"/>     
+  <class pattern="GenJetPlotterOperator<*>"/>
   <class pattern="DiJetPlotterOperator<*>"/>    
   <class pattern="EventWriterOperator<*>"/> 
   <class pattern="TreeConverterOperator<*>"/> 
@@ -25,4 +27,6 @@
   <class pattern="HemisphereMixerOperator<*>"/> 
   <class pattern="HemisphereWriterOperator<*>"/> 
   <class pattern="MixedEventWriterOperator<*>"/> 
+  <class pattern="ReWeightingOperator<*>"/> 
+  <class pattern="WeightSumOperator<*>"/> 
 </lcgdict>  
